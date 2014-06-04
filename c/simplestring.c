@@ -12,6 +12,9 @@ int main() {
         printf("Sorry, that's the wrong world.\n");
         return 1;
     }
+    else {
+        printf("Nice world you live in :-)\n");
+    }
 
     printf("Hi, my hobby is %s and I live in the world of %s\n",myhobby,myworld);
     return 0;
