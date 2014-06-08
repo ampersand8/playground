@@ -1,8 +1,12 @@
+/* 
+* Author: Simon
+* Created: 2014-06-08
+*/
 #include <stdio.h>
 
 int *bubblemeone(int n, int numbers[]);
 
-int main() {
+int main(int argc, char *argv[]) {
     int n,i,numbers[100];
     int *sortone;
     printf("Enter the number of elements: ");
