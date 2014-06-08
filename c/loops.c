@@ -2,10 +2,12 @@
 
 void myforloop();
 void mywhilelloop();
+void mydowhileloop();
 
 int main() {
     myforloop();
     mywhilelloop();
+    mydowhileloop();
     return 0;
 }
 
@@ -27,4 +29,16 @@ void mywhilelloop() {
         i++;
         printf("%d\n", i);
     }
+}
+
+/* playing with do while loop */
+void mydowhileloop() {
+    int i = 0, m;
+    printf("Enter a number: ");
+    scanf("%d", &m);
+    do {
+        i++;
+        printf("%d\n", i);
+    }
+    while (i < m);
 }
