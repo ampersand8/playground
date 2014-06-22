@@ -25,8 +25,7 @@ struct Connection {
 
 void Database_close(struct Connection *conn);
 
-void die(const char *message, struct Connection *conn)
-{
+void die(const char *message, struct Connection *conn) {
     Database_close(conn);
     if(errno) {
         perror(message);
@@ -37,20 +36,17 @@ void die(const char *message, struct Connection *conn)
     exit(1);
 }
 
-void Address_print(struct Address *addr)
-{
+void Address_print(struct Address *addr) {
     printf("%d %s %s\n",
             addr->id, addr->name, addr->email);
 }
 
-void Database_load(struct Connection *conn)
-{
+void Database_load(struct Connection *conn) {
     int rc = fread(conn->db, sizeof(struct Database), 1, conn->file);
     if(rc != 1) die("Failed to load database.",conn);
 }
 
-struct Connection *Database_open(const char *filename, char mode)
-{
+struct Connection *Database_open(const char *filename, char mode) {
     struct Connection *conn = malloc(sizeof(struct Connection));
     if(!conn) die("Memory error",conn);
 
@@ -72,8 +68,7 @@ struct Connection *Database_open(const char *filename, char mode)
     return conn;
 }
 
-void Database_close(struct Connection *conn)
-{
+void Database_close(struct Connection *conn) {
     if(conn) {
         if(conn->file) fclose(conn->file);
         if(conn->db) free(conn->db);
@@ -81,8 +76,7 @@ void Database_close(struct Connection *conn)
     }
 }
 
-void Database_write(struct Connection *conn)
-{
+void Database_write(struct Connection *conn) {
     rewind(conn->file);
 
     int rc = fwrite(conn->db, sizeof(struct Database), 1, conn->file);
@@ -92,8 +86,7 @@ void Database_write(struct Connection *conn)
     if(rc == -1) die("Cannot flush database.",conn);
 }
 
-void Database_create(struct Connection *conn)
-{
+void Database_create(struct Connection *conn) {
     int i = 0;
 
     for(i = 0; i < MAX_ROWS; i++) {
@@ -104,8 +97,7 @@ void Database_create(struct Connection *conn)
     }
 }
 
-void Database_set(struct Connection *conn, int id, const char *name, const char *email)
-{
+void Database_set(struct Connection *conn, int id, const char *name, const char *email) {
     struct Address *addr = &conn->db->rows[id];
     if(addr->set) die("Already set, delete it first",conn);
 
@@ -119,8 +111,7 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
     if(!res) die("Email copy failed",conn);
 }
 
-void Database_get(struct Connection *conn, int id)
-{
+void Database_get(struct Connection *conn, int id) {
     struct Address *addr = &conn->db->rows[id];
 
     if(addr->set) {
@@ -130,14 +121,12 @@ void Database_get(struct Connection *conn, int id)
     }
 }
 
-void Database_delete(struct Connection *conn, int id)
-{
+void Database_delete(struct Connection *conn, int id) {
     struct Address addr = {.id = id, .set = 0};
     conn->db->rows[id] = addr;
 }
 
-void Database_list(struct Connection *conn)
-{
+void Database_list(struct Connection *conn) {
     int i = 0;
     struct Database *db = conn->db;
 
@@ -150,8 +139,7 @@ void Database_list(struct Connection *conn)
     }
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     struct Connection *tempconn = NULL;
     if(argc < 3) die("USAGE: ex17 <dbfile> <action> [action params]",tempconn);
 
