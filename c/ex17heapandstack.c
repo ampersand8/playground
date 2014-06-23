@@ -4,18 +4,20 @@
 #include <errno.h>
 #include <string.h>
 
-#define MAX_DATA 512
-#define MAX_ROWS 100
+//#define MAX_DATA 512
+//#define MAX_ROWS 100
 
 struct Address {
     int id;
     int set;
-    char name[MAX_DATA];
-    char email[MAX_DATA];
+    char *name;
+    char *email;
 };
 
 struct Database {
-    struct Address rows[MAX_ROWS];
+    int max_data;
+    int max_rows;
+    struct Address **rows;
 };
 
 struct Connection {
@@ -86,8 +88,9 @@ void Database_write(struct Connection *conn) {
     if(rc == -1) die("Cannot flush database.",conn);
 }
 
-void Database_create(struct Connection *conn) {
+struct Database *Database_create(struct Connection *conn, int MAX_ROWS, int MAX_DATA) {
     int i = 0;
+    struct Address **rows = malloc(sizeof(struct Address *) * max_rows);
 
     for(i = 0; i < MAX_ROWS; i++) {
         // make a prototype to initialize it
