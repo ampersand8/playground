@@ -1,8 +1,19 @@
-// Get the package we need
+// Load required packages
 var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var Beer = require('./models/beer');
+
+// Connect to the beerlocker MongoDB
+mongoose.connect('mongodb://localhost:27017/beerlocker');
 
 // Create our express application
 var app = express();
+
+// Use the body-parser package in our application
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // Use environment defined port or port 3000
 var port = process.env.PORT || 3000;
