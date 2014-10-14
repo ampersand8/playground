@@ -48,6 +48,28 @@ beersRoute.post(function(req,res) {
   });
 });
 
+// Create endpoint /api/beers for GET
+beersRoute.get(function(req,res) {
+  // Use the Beer model to find all the beer
+  Beer.find(function(err,beers) {
+    if(err)
+      res.send(err);
+    res.json(beers);
+  });
+});
+
+// Create a new route with the /beers/:beer_id prefix
+var beerRoute = router.route('/beers/:beer_id');
+
+// Create endpiont /beers/:beer_id for GET
+beerRoute.get(function(req,res) {
+  // Use the Beer model to find a specific beer
+  Beer.findById(req.params.beer_id,function(err,beer) {
+    if(err)
+      res.send(err);
+    res.json(beer);
+  });
+});
 
 // Register all our routes with /api
 app.use('/api', router);
